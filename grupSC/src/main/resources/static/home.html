@@ -19,34 +19,44 @@
     }
   </style>
 
-  <title>Cadastrar usuário</title>
+  <title>Home</title>
 </head>
 <body>
-
-<button type="button" class="btn btn-primary" onClick="salvarUsuario()">
-  Salvar
-</button>
 <button
         type="button"
-        class="btn btn-secondary"
+        class="btn btn-primary"
         onClick="cadastroCliente()"
 >
-  Novo
+  Novo cliente
 </button>
 <button
         type="button"
         class="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#modalPesquisaUser"
-        data-bs-whatever="@mdo"
+        onclick="pesquisarCnpj()"
 >
-  Pesquisar
+  Pesquisar por cnpj
 </button>
+
+<button
+        type="button"
+        class="btn btn-danger"
+        onclick="atualizarHome()"
+>
+  Buscar todos
+</button>
+<input
+        type="text"
+        class="form-control"
+        id="cnpj"
+        placeholder="Informe o cnpj"
+        required="required"
+/>
 <table class="table" id="tabelaResultados">
   <thead>
   <tr>
     <th scope="col">ID</th>
     <th scope="col">Usuario</th>
+    <th scope="col">Cnpj</th>
     <th scope="col">Razao social</th>
     <th scope="col">Status</th>
     <th scope="col">Editar</th>
@@ -96,6 +106,8 @@
                   res[i].id +
                   "</td> <td>" +
                   res[i].usuario +
+                   "</td> <td>" +
+                  res[i].cnpj +
                   "</td> <td>" +
                   res[i].razaoSocial +
                    "</td> <td>" +
@@ -124,6 +136,56 @@
     function updateCliente(idCnpj) {
      window.location.href = `editarCliente.html?id=${encodeURIComponent(idCnpj)}`;
     }
+
+
+    function atualizarHome(){
+       window.location.href = "home.html"
+    }
+
+    function pesquisarCnpj(){
+
+    var cnpj = $("#cnpj").val();
+
+    if(cnpj!==null && cnpj!==""){
+    $.ajax({
+          method: "GET",
+          url: "/api/v1/clientes/cnpj/"+cnpj,
+          success: function (res) {
+            $("#tabelaResultados > tbody > tr").remove();
+            console.log("res..."+res)
+
+            for (var i = 0; i < res.length; i++) {
+
+              $("#tabelaResultados > tbody ").append(
+                "<tr><td>" +
+                  res[i].id +
+                  "</td> <td>" +
+                  res[i].usuario +
+                  "</td> <td>" +
+                  res[i].cnpj +
+                   "</td> <td>" +
+                  res[i].razaoSocial +
+                   "</td> <td>" +
+                  res[i].status +
+                  "</td>" +
+                  '<td><button type="button" class="btn btn-primary" onClick="updateCliente(' +
+                  res[i].cnpj +
+                  ')">Editar</button></td>' +
+                   '<td><button type="button" class="btn btn-danger" onClick="deleteCliente(' +
+                  res[i].id +
+                  ')">Excluir</button></td>' +
+                  " </tr>"
+              );
+}
+          },
+        }).fail(function (xhr, status, errorTrhown) {
+          alert("Erro ao tentar salvar usuário " + xhr.responseText);
+        });
+
+    }
+
+    }
+
 
 function deleteCliente(idCliente) {
       $.ajax({

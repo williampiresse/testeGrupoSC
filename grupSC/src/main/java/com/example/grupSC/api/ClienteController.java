@@ -22,9 +22,10 @@ public class ClienteController {
     }
 
     @GetMapping("/cnpj/{cnpj}")
-    public Optional<Cliente> getClienteByCnpj(@PathVariable("cnpj") String cnpj){
+    public Iterable<Cliente> getClienteByCnpj(@PathVariable("cnpj") String cnpj){
         System.out.print("aqui...");
-        return  service.getClienteByCnpj(cnpj);
+        var response = service.getClienteByCnpj(cnpj);
+        return response;
     }
 
     @GetMapping("/razao-social/{razao-social}")

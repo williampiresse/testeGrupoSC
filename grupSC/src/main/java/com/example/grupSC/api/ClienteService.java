@@ -21,7 +21,7 @@ public class ClienteService {
 
 
 
-    public Optional<Cliente> getClienteByCnpj(String cnpj){
+    public Iterable<Cliente> getClienteByCnpj(String cnpj){
 
         return clienteRepository.findByCnpj(cnpj);
 
