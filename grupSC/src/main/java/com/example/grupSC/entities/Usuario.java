@@ -1,4 +1,4 @@
-package com.example.grupSC.api;
+package com.example.grupSC.entities;
 
 public class Usuario {
 
@@ -25,6 +25,5 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
 
 }

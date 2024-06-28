@@ -1,6 +1,8 @@
-package com.example.grupSC.api;
+package com.example.grupSC.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.grupSC.entities.Cliente;
 
 import java.util.Optional;
 

@@ -1,0 +1,10 @@
+
+//create database clientes
+
+create table Cliente
+    (id bigint not null auto_increment,
+    cnpj varchar(255),
+    razaoSocial varchar(255),
+    usuario varchar(255),
+    senha varchar(255),
+    status varchar(255),primary key (id) );

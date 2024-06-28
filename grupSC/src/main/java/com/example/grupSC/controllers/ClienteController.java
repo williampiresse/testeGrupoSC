@@ -1,12 +1,14 @@
-package com.example.grupSC.api;
+package com.example.grupSC.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.grupSC.entities.Cliente;
+import com.example.grupSC.services.ClienteService;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,7 +23,6 @@ public class ClienteController {
         return  new ResponseEntity<>(list,HttpStatus.OK);
     }
 
-
     @GetMapping("/id/{id}")
     public ResponseEntity<Optional<Cliente>> get(@PathVariable("id") Long id){
         var usuario = service.getCliente(id);
@@ -30,14 +31,13 @@ public class ClienteController {
 
     @GetMapping("/cnpj/{cnpj}")
     public Iterable<Cliente> getClienteByAllCnpj(@PathVariable("cnpj") String cnpj){
-        System.out.print("aqui...");
         var response = service.getClienteByCnpj(cnpj);
         return response;
     }
 
     @GetMapping("/razao-social/{razao-social}")
     public Iterable<Cliente> getClienteByRazaoSocial(@PathVariable("razao-social") String razaoSocial){
-        System.out.print("aqui...");
+    
         var s = service.getClienteByRazaoSocial(razaoSocial);
         if (s.isPresent()) {
             return s.get();
@@ -56,7 +56,6 @@ public class ClienteController {
         service.create(cliente);
         return  "criado com sucesso...";
     }
-
 
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable("id") Long id){

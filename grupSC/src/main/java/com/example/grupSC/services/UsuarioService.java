@@ -1,7 +1,11 @@
-package com.example.grupSC.api;
+package com.example.grupSC.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.grupSC.entities.Cliente;
+import com.example.grupSC.entities.Usuario;
+import com.example.grupSC.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
@@ -21,4 +25,5 @@ public class UsuarioService {
         var user = usuarioRepository.save(c);
         return "cadastrado com sucesso...";
     }
+    
 }

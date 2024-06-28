@@ -1,10 +1,12 @@
-package com.example.grupSC.api;
+package com.example.grupSC.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import com.example.grupSC.entities.Cliente;
+import com.example.grupSC.repositories.ClienteRepository;
+
 import java.util.Optional;
 
 @Service
@@ -16,7 +18,6 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-
     public Optional<Cliente> getCliente(Long id){
         return clienteRepository.findById(id);
     }
@@ -24,29 +25,23 @@ public class ClienteService {
     public Optional<Iterable<Cliente>> getClienteByRazaoSocial(String razaoSocial){
         return clienteRepository.findByRazaoSocial(razaoSocial);
     }
-
-
-
+        
     public Iterable<Cliente> getClienteByCnpj(String cnpj){
 
         return clienteRepository.findByCnpj(cnpj);
 
     }
-
-
-
+        
     public void delete(Long id){
             Optional<Cliente>cliente = clienteRepository.findById(id);
             if (cliente.isPresent()){
                 clienteRepository.deleteById(id);
-
             }
     }
 
     public void create(Cliente cliente){
             clienteRepository.save(cliente);
     }
-
 
     public void update(Cliente cliente){
 

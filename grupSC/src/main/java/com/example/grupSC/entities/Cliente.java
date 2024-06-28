@@ -1,4 +1,4 @@
-package com.example.grupSC.api;
+package com.example.grupSC.entities;
 
 import jakarta.persistence.*;
 

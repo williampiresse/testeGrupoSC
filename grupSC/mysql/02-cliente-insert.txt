@@ -1,0 +1,2 @@
+ 
+ insert into Cliente (cnpj,razaoSocial, usuario, senha, Status ) VALUES('77267385000182','net-servicos','teste','123456','Ativo');
