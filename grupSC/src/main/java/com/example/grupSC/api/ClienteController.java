@@ -37,7 +37,7 @@ public class ClienteController {
         return  new ArrayList<>();
     }
 
-    @PutMapping()
+    @PutMapping("/salve")
     public String update(@RequestBody Cliente cliente){
         service.update(cliente);
         return  "salvo...";

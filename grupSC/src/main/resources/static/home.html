@@ -48,7 +48,10 @@
     <th scope="col">ID</th>
     <th scope="col">Usuario</th>
     <th scope="col">Razao social</th>
+    <th scope="col">Status</th>
     <th scope="col">Editar</th>
+    <th scope="col">Excluir</th>
+
   </tr>
   </thead>
   <tbody></tbody>
@@ -98,9 +101,12 @@
                    "</td> <td>" +
                   res[i].status +
                   "</td>" +
-                  '<td><button type="button" class="btn btn-primary" onClick="colocarEmEdicao(' +
+                  '<td><button type="button" class="btn btn-primary" onClick="updateCliente(' +
+                  res[i].cnpj +
+                  ')">Editar</button></td>' +
+                   '<td><button type="button" class="btn btn-danger" onClick="deleteCliente(' +
                   res[i].id +
-                  ')">Ver</button></td>' +
+                  ')">Excluir</button></td>' +
                   " </tr>"
               );
             }
@@ -114,46 +120,23 @@
 
           });
 
-    function salvarUsuario() {
-      var id = $("#id").val();
-      var nome = $("#nome").val();
-      var idade = $("#idade").val();
 
+    function updateCliente(idCnpj) {
+     window.location.href = `editarCliente.html?id=${encodeURIComponent(idCnpj)}`;
+    }
+
+function deleteCliente(idCliente) {
       $.ajax({
-        method: "POST",
-        url: "/curso-jdev-treinamento/api/v1/usuario/salvarUsuario",
-        data: JSON.stringify({
-          id: id,
-          nome: nome,
-          idade: idade,
-        }),
-        contentType: "application/json; charset=urf-8",
+        method: "Delete",
+        url: "api/v1/clientes/"+idCliente,
         success: function (result) {
-          $("#id").val(result.id);
+          window.location.reload(true)
 
-          alert("Gravou com sucesso");
         },
       }).fail(function (xhr, status, errorTrhown) {
         alert("Erro ao tentar salvar usuário " + xhr.responseText);
       });
     }
-
-    function colocarEmEdicao(idUsuario) {
-      $.ajax({
-        method: "GET",
-        url: "/curso-jdev-treinamento/api/v1/usuario/buscarPorId",
-        data: "idUsuario=" + idUsuario,
-        success: function (result) {
-          $("#id").val(result.id);
-          $("#nome").val(result.nome);
-          $("#idade").val(result.idade);
-        },
-      }).fail(function (xhr, status, errorTrhown) {
-        alert("Erro ao tentar salvar usuário " + xhr.responseText);
-      });
-    }
-
-
 </script>
 
 <!-- Option 2: Separate Popper and Bootstrap JS -->

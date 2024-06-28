@@ -2,6 +2,7 @@ package com.example.grupSC.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +41,17 @@ public class ClienteService {
 
 
     public void update(Cliente cliente){
+
+        Assert.notNull(cliente.getId(),"Nao foi possivel registrar o registro");
+
         Optional<Cliente> c = clienteRepository.findById(cliente.getId());
+
         if (c.isPresent()){
+            Cliente cliente1 = c.get();
+            cliente1.setUsuario(cliente1.getUsuario());
+            cliente1.setRazaoSocial(cliente.getRazaoSocial());
+            cliente1.setCnpj(cliente.getCnpj());
+            cliente1.setStatus(cliente.getStatus());
             clienteRepository.save(cliente);
         }else {
             throw  new RuntimeException("Nao foi possivel atualizar o cliente");
