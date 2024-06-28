@@ -29,7 +29,7 @@
 <button
         type="button"
         class="btn btn-secondary"
-        onClick="document.getElementById('cadastroUsuario').reset()"
+        onClick="cadastroCliente()"
 >
   Novo
 </button>
@@ -72,6 +72,10 @@
 
 <script type="text/javascript">
 
+  function cadastroCliente(){
+    window.location.href = "cadastro.html"
+  }
+
   $(document).ready(function() {
               function listaClientes() {
       var lista = $("#listaClientes").val();
@@ -91,6 +95,8 @@
                   res[i].usuario +
                   "</td> <td>" +
                   res[i].razaoSocial +
+                   "</td> <td>" +
+                  res[i].status +
                   "</td>" +
                   '<td><button type="button" class="btn btn-primary" onClick="colocarEmEdicao(' +
                   res[i].id +

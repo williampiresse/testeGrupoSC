@@ -24,16 +24,21 @@
 <body>
 <form action="" id="cadastroUsuario">
   <div class="mb-3">
-    <label for="id" class="form-label">Cnpj</label>
-    <input type="text" class="form-control" id="id" readonly="readonly" />
+    <label for="nome" class="form-label">Usuario</label>
+    <input type="text" class="form-control" id="nome" required="required" />
   </div>
 
   <div class="mb-3">
-    <label for="nome" class="form-label">Razao social</label>
+    <label for="cnpj" class="form-label">Cnpj</label>
+    <input type="text" class="form-control" id="cnpj" required="required" />
+  </div>
+
+  <div class="mb-3">
+    <label for="razaoSocial" class="form-label">Razao social</label>
     <input
             type="text"
             class="form-control"
-            id="nome"
+            id="razaoSocial"
             placeholder="Informe sua razao social"
             required="required"
     />
@@ -64,7 +69,7 @@
   </div>
 </form>
 <br>
-<button type="button" class="btn btn-primary" onClick="salvarUsuario()">
+<button type="button" class="btn btn-primary" onClick="cadastraCliente()">
   Salvar
 </button>
 
@@ -151,77 +156,31 @@
 ></script>
 
 <script type="text/javascript">
-  function salvarUsuario() {
-    var id = $("#id").val();
-    var nome = $("#nome").val();
-    var idade = $("#idade").val();
 
-    $.ajax({
-      method: "POST",
-      url: "/curso-jdev-treinamento/api/v1/usuario/salvarUsuario",
-      data: JSON.stringify({
-        id: id,
-        nome: nome,
-        idade: idade,
-      }),
-      contentType: "application/json; charset=urf-8",
-      success: function (result) {
-        $("#id").val(result.id);
+  function cadastraCliente() {
+        var nome = $("#nome").val();
+        var cnpj = $("#cnpj").val();
+        var razaoSocial = $("#razaoSocial").val();
+        var status = $('input[name="status"]:checked').val();
+        $.ajax({
+          method: "POST",
+          url: "/api/v1/clientes",
+          data: JSON.stringify({
+            usuario: nome,
+            cnpj: cnpj,
+            razaoSocial: razaoSocial,
+            status: status
+          }),
+          contentType: "application/json; charset=urf-8",
+          success: function (result) {
 
-        alert("Gravou com sucesso");
-      },
-    }).fail(function (xhr, status, errorTrhown) {
-      alert("Erro ao tentar salvar usuário " + xhr.responseText);
-    });
-  }
+           window.location.href = "home.html"
+          },
+        }).fail(function (xhr, status, errorTrhown) {
+          alert("Erro ao tentar salvar usuário " + xhr.responseText);
+        });
+      }
 
-  function colocarEmEdicao(idUsuario) {
-    $.ajax({
-      method: "GET",
-      url: "/curso-jdev-treinamento/api/v1/usuario/buscarPorId",
-      data: "idUsuario=" + idUsuario,
-      success: function (result) {
-        $("#id").val(result.id);
-        $("#nome").val(result.nome);
-        $("#idade").val(result.idade);
-      },
-    }).fail(function (xhr, status, errorTrhown) {
-      alert("Erro ao tentar salvar usuário " + xhr.responseText);
-    });
-  }
-
-  function pesquisaUser() {
-    var nameBusca = $("#nameBusca").val();
-
-    if (nameBusca != null && nameBusca.trim() != "") {
-      $.ajax({
-        method: "GET",
-        url: "/curso-jdev-treinamento/api/v1/usuario/buscarPorNome",
-        data: "name=" + nameBusca,
-        success: function (res) {
-          $("#tabelaResultados > tbody > tr").remove();
-
-          for (var i = 0; i < res.length; i++) {
-            $("#tabelaResultados > tbody ").append(
-              "<tr><td>" +
-                res[i].id +
-                "</td> <td>" +
-                res[i].nome +
-                "</td> <td>" +
-                res[i].idade +
-                "</td>" +
-                '<td><button type="button" class="btn btn-primary" onClick="colocarEmEdicao(' +
-                res[i].id +
-                ')">Ver</button></td>' +
-                " </tr>"
-            );
-          }
-        },
-      }).fail(function (xhr, status, errorTrhown) {
-        alert("Erro ao tentar salvar usuário " + xhr.responseText);
-      });
-    }
-  }
 </script>
 
 <!-- Option 2: Separate Popper and Bootstrap JS -->
