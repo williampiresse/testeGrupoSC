@@ -21,8 +21,15 @@ public class ClienteController {
         return  new ResponseEntity<>(list,HttpStatus.OK);
     }
 
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Optional<Cliente>> get(@PathVariable("id") Long id){
+        var usuario = service.getCliente(id);
+        return  new ResponseEntity<>(usuario,HttpStatus.OK);
+    }
+
     @GetMapping("/cnpj/{cnpj}")
-    public Iterable<Cliente> getClienteByCnpj(@PathVariable("cnpj") String cnpj){
+    public Iterable<Cliente> getClienteByAllCnpj(@PathVariable("cnpj") String cnpj){
         System.out.print("aqui...");
         var response = service.getClienteByCnpj(cnpj);
         return response;

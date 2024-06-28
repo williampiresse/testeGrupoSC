@@ -32,9 +32,9 @@
 <button
         type="button"
         class="btn btn-danger"
-        onclick="pesquisarCnpj()"
+        onclick="pesquisar()"
 >
-  Pesquisar por cnpj
+  Pesquisar por cnpj / razao social
 </button>
 
 <button
@@ -47,10 +47,12 @@
 <input
         type="text"
         class="form-control"
-        id="cnpj"
-        placeholder="Informe o cnpj"
+        id="cnpjOrRs"
+        placeholder="Informe o cnpj ou razao social"
         required="required"
 />
+
+
 <table class="table" id="tabelaResultados">
   <thead>
   <tr>
@@ -114,7 +116,7 @@
                   res[i].status +
                   "</td>" +
                   '<td><button type="button" class="btn btn-primary" onClick="updateCliente(' +
-                  res[i].cnpj +
+                  res[i].id +
                   ')">Editar</button></td>' +
                    '<td><button type="button" class="btn btn-danger" onClick="deleteCliente(' +
                   res[i].id +
@@ -133,8 +135,8 @@
           });
 
 
-    function updateCliente(idCnpj) {
-     window.location.href = `editarCliente.html?id=${encodeURIComponent(idCnpj)}`;
+    function updateCliente(idCliente) {
+     window.location.href = `editarCliente.html?id=${encodeURIComponent(idCliente)}`;
     }
 
 
@@ -144,7 +146,7 @@
 
     function pesquisarCnpj(){
 
-    var cnpj = $("#cnpj").val();
+    var cnpj = $("#cnpjOrRs").val();
 
     if(cnpj!==null && cnpj!==""){
     $.ajax({
@@ -186,6 +188,59 @@
 
     }
 
+
+    function pesquisarRazaoSocial(){
+
+    var rs = $("#cnpjOrRs").val();
+
+    if(rs!==null && rs!==""){
+    $.ajax({
+          method: "GET",
+          url: "/api/v1/clientes/razao-social/"+rs,
+          success: function (res) {
+            $("#tabelaResultados > tbody > tr").remove();
+            console.log("res..."+res)
+
+            for (var i = 0; i < res.length; i++) {
+
+              $("#tabelaResultados > tbody ").append(
+                "<tr><td>" +
+                  res[i].id +
+                  "</td> <td>" +
+                  res[i].usuario +
+                  "</td> <td>" +
+                  res[i].cnpj +
+                   "</td> <td>" +
+                  res[i].razaoSocial +
+                   "</td> <td>" +
+                  res[i].status +
+                  "</td>" +
+                  '<td><button type="button" class="btn btn-primary" onClick="updateCliente(' +
+                  res[i].cnpj +
+                  ')">Editar</button></td>' +
+                   '<td><button type="button" class="btn btn-danger" onClick="deleteCliente(' +
+                  res[i].id +
+                  ')">Excluir</button></td>' +
+                  " </tr>"
+              );
+}
+          },
+        }).fail(function (xhr, status, errorTrhown) {
+          alert("Erro ao tentar salvar usuário " + xhr.responseText);
+        });
+
+    }
+
+    }
+
+function pesquisar(){
+    var rs = $("#cnpjOrRs").val();
+    if(rs.length == 15){
+      pesquisarCnpj()
+    }else{
+      pesquisarRazaoSocial()
+    }
+}
 
 function deleteCliente(idCliente) {
       $.ajax({
